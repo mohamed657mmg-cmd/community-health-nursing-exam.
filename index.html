@@ -8,272 +8,200 @@
 
 <style>
 *{box-sizing:border-box}
-
 body{
- margin:0;
- padding:20px;
- min-height:100vh;
- font-family:Arial,sans-serif;
- color:#f4f8fc;
+ margin:0;padding:16px;min-height:100vh;
+ font-family:Arial,sans-serif;color:#f4f8fc;
  background:linear-gradient(135deg,#061426,#102d49,#07111f);
 }
-
 .container{max-width:850px;margin:auto}
-
 header{text-align:center;padding:20px 10px}
-
-h1{color:#55d6ff;font-size:27px;margin:8px 0}
-
+h1{color:#55d6ff;font-size:26px;margin:8px 0}
 .subtitle{color:#b8c9d9;font-size:14px}
-
 .card{
- background:#10243a;
- border:1px solid #244661;
- border-radius:16px;
- padding:22px;
- margin:15px 0;
+ background:#10243a;border:1px solid #244661;
+ border-radius:16px;padding:20px;margin:15px 0;
  box-shadow:0 8px 25px #0003;
 }
-
 input{
- width:100%;
- padding:14px;
- border-radius:9px;
- border:1px solid #42627d;
- background:#071827;
- color:white;
- font-size:16px;
- margin:12px 0;
+ width:100%;padding:14px;border-radius:9px;
+ border:1px solid #42627d;background:#071827;
+ color:white;font-size:16px;margin:12px 0;
 }
-
 button{
- border:0;
- border-radius:9px;
- padding:13px 20px;
- font-size:15px;
- font-weight:bold;
- cursor:pointer;
- background:#19bce5;
- color:#061426;
- margin:5px;
+ border:0;border-radius:9px;padding:13px 20px;
+ font-size:15px;font-weight:bold;cursor:pointer;
+ background:#19bce5;color:#061426;margin:5px;
 }
-
 button:disabled{opacity:.4;cursor:not-allowed}
-
 .secondary{background:#29445d;color:white}
-
+.finish{background:#62e6a1;color:#061426}
 .question-number{color:#55d6ff;font-weight:bold;margin-bottom:12px}
-
-.question{font-size:19px;line-height:1.5;margin-bottom:18px}
-
+.question{font-size:19px;line-height:1.6;margin-bottom:18px}
 .option{
- display:block;
- padding:14px;
- margin:10px 0;
- border:1px solid #34516b;
- border-radius:10px;
- cursor:pointer;
- background:#0a1c2e;
- line-height:1.5;
+ display:block;padding:14px;margin:10px 0;
+ border:1px solid #34516b;border-radius:10px;
+ cursor:pointer;background:#0a1c2e;line-height:1.5;
  transition:.2s;
 }
-
 .option:hover{border-color:#55d6ff}
-
-.option.selected{
- border:2px solid #19bce5;
- background:#123b55;
-}
-
+.option.selected{border:2px solid #19bce5;background:#123b55}
 .row{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
- flex-wrap:wrap;
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;flex-wrap:wrap;
 }
-
-.small{color:#b8c9d9;font-size:14px}
-
+.small{color:#b8c9d9;font-size:14px;line-height:1.6}
 .progress-bg{
- height:8px;
- background:#29445d;
- border-radius:10px;
- overflow:hidden;
+ height:9px;background:#29445d;
+ border-radius:10px;overflow:hidden;
 }
-
 .progress{
- height:100%;
- width:0;
- background:#19bce5;
+ height:100%;width:0;background:#19bce5;
  transition:.2s;
 }
-
+.hidden{display:none!important}
 .result{text-align:center}
-
 .score{
- font-size:42px;
- color:#55d6ff;
- font-weight:bold;
- margin:20px;
+ font-size:45px;color:#55d6ff;
+ font-weight:bold;margin:20px;
 }
-
+.stats{
+ display:flex;justify-content:center;
+ flex-wrap:wrap;gap:12px;margin:20px 0;
+}
+.stat-box{
+ background:#0a1c2e;border:1px solid #34516b;
+ border-radius:10px;padding:15px;min-width:105px;
+}
+.stat-box strong{display:block;font-size:27px;margin-bottom:5px}
+.correct{color:#62e6a1}
+.wrong{color:#ff8585}
 .review-item{
  border-bottom:1px solid #34516b;
- padding:16px 0;
- line-height:1.6;
+ padding:18px 0;line-height:1.7;
 }
-
-.correct{color:#62e6a1}
-
-.wrong{color:#ff8585}
-
-.hidden{display:none!important}
-
+.review-item:last-child{border-bottom:0}
+.review-status{
+ display:inline-block;padding:5px 10px;
+ border-radius:7px;font-size:13px;font-weight:bold;
+ margin:10px 0;
+}
+.status-correct{background:#164b38;color:#62e6a1}
+.status-wrong{background:#572b35;color:#ff8585}
+.review-item p{margin:8px 0}
 footer{
- text-align:center;
- color:#a9bfd0;
- font-size:13px;
- padding:25px 5px;
- line-height:1.8;
+ text-align:center;color:#a9bfd0;
+ font-size:13px;padding:25px 5px;line-height:1.8;
 }
-
-.stats{
- display:flex;
- justify-content:center;
- flex-wrap:wrap;
- gap:12px;
- margin:20px 0;
-}
-
-.stat-box{
- background:#0a1c2e;
- border:1px solid #34516b;
- border-radius:10px;
- padding:15px;
- min-width:110px;
-}
-
-.stat-box strong{
- display:block;
- font-size:25px;
- margin-bottom:5px;
+#startBtn{width:100%;margin:12px 0 0}
+@media(max-width:500px){
+ body{padding:10px}
+ .card{padding:16px}
+ h1{font-size:22px}
+ .question{font-size:17px}
+ .score{font-size:38px}
 }
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
 <header>
- <h1>Community Health Nursing Exam</h1>
- <div class="subtitle">Chapters 1 & 2 | 50 MCQ Questions | Above Intermediate</div>
+<h1>Community Health Nursing Exam</h1>
+<div class="subtitle">Chapters 1 & 2 | 50 MCQ Questions | Above Intermediate</div>
 </header>
 
 <section id="startScreen" class="card">
- <h2 style="color:#55d6ff">Welcome to the Exam</h2>
- <p class="small">Please enter your full name before starting.</p>
- <input id="studentName" type="text" placeholder="Enter your name">
- <p class="small">Number of Questions: 50</p>
- <p class="small">Level: Above Intermediate</p>
- <p class="small">Choose one correct answer for each question.</p>
- <button type="button" id="startBtn">Start Exam</button>
+<h2 style="color:#55d6ff">Welcome to the Exam</h2>
+<p class="small">Please enter your full name before starting.</p>
+<input id="studentName" type="text" placeholder="Enter your name" autocomplete="name">
+<p class="small">Number of Questions: 50</p>
+<p class="small">Level: Above Intermediate</p>
+<p class="small">Choose one correct answer for each question.</p>
+<button type="button" id="startBtn">Start Exam</button>
 </section>
 
 <section id="examScreen" class="hidden">
 
- <div class="card">
-  <div class="row">
-   <span id="studentLabel" class="small"></span>
-   <span id="counter" class="small">Question 1 / 50</span>
-  </div>
+<div class="card">
+<div class="row">
+<span id="studentLabel" class="small"></span>
+<span id="counter" class="small">Question 1 / 50</span>
+</div>
+<div class="progress-bg" style="margin-top:15px">
+<div class="progress" id="progress"></div>
+</div>
+<p id="answered" class="small">Answered: 0 / 50</p>
+</div>
 
-  <div class="progress-bg" style="margin-top:15px">
-   <div class="progress" id="progress"></div>
-  </div>
+<div class="card">
+<div class="question-number" id="qNumber"></div>
+<div class="question" id="questionText"></div>
+<div id="options"></div>
+</div>
 
-  <p id="answered" class="small">Answered: 0 / 50</p>
- </div>
+<div class="row">
+<button type="button" class="secondary" id="prevBtn">Previous</button>
+<button type="button" id="nextBtn">Next</button>
+</div>
 
- <div class="card">
-  <div class="question-number" id="qNumber"></div>
-  <div class="question" id="questionText"></div>
-  <div id="options"></div>
- </div>
-
- <div class="row">
-  <button type="button" class="secondary" id="prevBtn">Previous</button>
-  <button type="button" id="nextBtn">Next</button>
- </div>
-
- <div style="text-align:center;margin-top:18px">
-  <button type="button" id="submitBtn" style="background:#62e6a1">Submit Exam</button>
- </div>
+<div style="text-align:center;margin-top:18px">
+<button type="button" class="finish" id="submitBtn">Submit Exam</button>
+</div>
 
 </section>
 
 <section id="resultScreen" class="hidden">
 
- <div class="card result">
+<div class="card result">
+<h2 style="color:#55d6ff">Exam Result</h2>
+<p id="resultName" class="small"></p>
 
-  <h2 style="color:#55d6ff">Exam Result</h2>
+<div class="score" id="score">0 / 50</div>
+<h2 id="percentage"></h2>
 
-  <p id="resultName"></p>
+<div class="stats">
+<div class="stat-box">
+<strong class="correct" id="correctCount">0</strong>
+<span class="small">Correct Answers</span>
+</div>
+<div class="stat-box">
+<strong class="wrong" id="wrongCount">0</strong>
+<span class="small">Wrong Answers</span>
+</div>
+<div class="stat-box">
+<strong id="totalCount">50</strong>
+<span class="small">Total Questions</span>
+</div>
+</div>
 
-  <div class="score" id="score"></div>
+<p id="message" class="small"></p>
 
-  <h3 id="percentage"></h3>
+<button type="button" id="reviewBtn">Review Answers</button>
+<button type="button" class="secondary" id="restartBtn">Restart Exam</button>
+</div>
 
-  <div class="stats">
-
-   <div class="stat-box">
-    <strong class="correct" id="correctCount">0</strong>
-    <span class="small">Correct</span>
-   </div>
-
-   <div class="stat-box">
-    <strong class="wrong" id="wrongCount">0</strong>
-    <span class="small">Wrong</span>
-   </div>
-
-   <div class="stat-box">
-    <strong id="totalCount">50</strong>
-    <span class="small">Total</span>
-   </div>
-
-  </div>
-
-  <p id="message" class="small"></p>
-
-  <button type="button" id="reviewBtn">Review Answers</button>
-  <button type="button" class="secondary" id="restartBtn">Restart</button>
-
- </div>
-
- <div id="reviewSection" class="card">
-
-  <h2 style="color:#55d6ff">Answer Review</h2>
-
-  <p class="small">
-   Green means correct answer. Red means wrong answer.
-  </p>
-
-  <div id="reviewContent"></div>
-
- </div>
+<div id="reviewSection" class="card">
+<h2 style="color:#55d6ff">Answer Review</h2>
+<p class="small">Review all questions and compare your answers with the correct answers.</p>
+<div id="reviewContent"></div>
+</div>
 
 </section>
 
 <footer>
- Designed by Mohamed Mahmoud<br>
- Exam Author: Mr. Omar Abdel-Tawab
+Designed by Mohamed Mahmoud<br>
+Exam Author: Mr. Omar Abdel-Tawab
 </footer>
 
 </div>
 
 <script>
 "use strict";
+
+/* =========================
+   EXAM QUESTIONS
+========================= */
 
 const questions = [
 
@@ -379,122 +307,173 @@ const questions = [
 
 ];
 
-let current=0;
-let answers=new Array(questions.length).fill(null);
-let student="";
-let shuffledQuestions=[];
+/* =========================
+   EXAM VARIABLES
+========================= */
+
+let currentQuestion = 0;
+let studentName = "";
+let answers = [];
+let shuffledQuestions = [];
+let examSubmitted = false;
+
+/* =========================
+   PREPARE QUESTIONS
+========================= */
 
 function shuffleOptions(question){
 
- const arr=question.o.map((text,index)=>({
-  text:text,
-  correct:index===question.a
- }));
+ const options = question.o.map(function(text,index){
+  return {
+   text:text,
+   correct:index === question.a
+  };
+ });
 
- for(let i=arr.length-1;i>0;i--){
+ for(let i=options.length-1;i>0;i--){
   const j=Math.floor(Math.random()*(i+1));
-  [arr[i],arr[j]]=[arr[j],arr[i]];
+  [options[i],options[j]]=[options[j],options[i]];
  }
 
- return arr;
+ return options;
 }
 
 function prepareQuestions(){
 
- shuffledQuestions=questions.map(q=>({
-  q:q.q,
-  options:shuffleOptions(q)
- }));
+ shuffledQuestions = questions.map(function(question){
+  return {
+   q:question.q,
+   options:shuffleOptions(question)
+  };
+ });
 
 }
+
+/* =========================
+   START EXAM
+========================= */
 
 function startExam(){
 
- const nameInput=document.getElementById("studentName");
- const name=nameInput.value.trim();
+ try{
 
- if(name===""){
-  alert("Please enter your name first.");
-  nameInput.focus();
-  return;
+  const nameInput=document.getElementById("studentName");
+  const name=nameInput.value.trim();
+
+  if(!name){
+   alert("Please enter your name first.");
+   nameInput.focus();
+   return;
+  }
+
+  studentName=name;
+  currentQuestion=0;
+  examSubmitted=false;
+  answers=new Array(questions.length).fill(null);
+
+  prepareQuestions();
+
+  document.getElementById("studentLabel").textContent="Student: "+studentName;
+
+  document.getElementById("startScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.add("hidden");
+  document.getElementById("examScreen").classList.remove("hidden");
+
+  renderQuestion();
+
+  window.scrollTo(0,0);
+
+ }catch(error){
+
+  console.error("Start Exam Error:",error);
+  alert("An error occurred while starting the exam. Please refresh the page.");
+
  }
 
- student=name;
- current=0;
- answers=new Array(questions.length).fill(null);
-
- prepareQuestions();
-
- document.getElementById("studentLabel").textContent="Student: "+student;
-
- document.getElementById("startScreen").classList.add("hidden");
- document.getElementById("examScreen").classList.remove("hidden");
- document.getElementById("resultScreen").classList.add("hidden");
-
- renderQuestion();
-
- window.scrollTo({top:0,behavior:"smooth"});
 }
+
+/* =========================
+   DISPLAY QUESTION
+========================= */
 
 function renderQuestion(){
 
- const q=shuffledQuestions[current];
+ if(!shuffledQuestions.length)return;
 
- document.getElementById("qNumber").textContent="Question "+(current+1);
+ const question=shuffledQuestions[currentQuestion];
 
- document.getElementById("questionText").textContent=q.q;
+ document.getElementById("qNumber").textContent=
+  "Question "+(currentQuestion+1);
+
+ document.getElementById("questionText").textContent=question.q;
 
  document.getElementById("counter").textContent=
-  "Question "+(current+1)+" / "+questions.length;
+  "Question "+(currentQuestion+1)+" / "+questions.length;
 
  document.getElementById("progress").style.width=
-  ((current+1)/questions.length*100)+"%";
+  ((currentQuestion+1)/questions.length*100)+"%";
 
  document.getElementById("answered").textContent=
-  "Answered: "+answers.filter(x=>x!==null).length+" / "+questions.length;
+  "Answered: "+answers.filter(function(answer){
+   return answer!==null;
+  }).length+" / "+questions.length;
 
- const box=document.getElementById("options");
- box.innerHTML="";
+ const optionsBox=document.getElementById("options");
+ optionsBox.innerHTML="";
 
- q.options.forEach((option,index)=>{
+ question.options.forEach(function(option,index){
 
   const div=document.createElement("div");
 
-  div.className="option"+(answers[current]===index?" selected":"");
+  div.className="option";
+
+  if(answers[currentQuestion]===index){
+   div.classList.add("selected");
+  }
 
   div.textContent=String.fromCharCode(65+index)+") "+option.text;
 
   div.addEventListener("click",function(){
 
-   answers[current]=index;
+   if(examSubmitted)return;
+
+   answers[currentQuestion]=index;
    renderQuestion();
 
   });
 
-  box.appendChild(div);
+  optionsBox.appendChild(div);
 
  });
 
- document.getElementById("prevBtn").disabled=current===0;
+ document.getElementById("prevBtn").disabled=
+  currentQuestion===0;
 
  const nextBtn=document.getElementById("nextBtn");
 
  nextBtn.disabled=false;
 
- nextBtn.textContent=
-  current===questions.length-1?"Finish Exam":"Next";
+ if(currentQuestion===questions.length-1){
+  nextBtn.textContent="Finish Exam";
+  nextBtn.classList.add("finish");
+ }else{
+  nextBtn.textContent="Next";
+  nextBtn.classList.remove("finish");
+ }
 
 }
 
+/* =========================
+   NAVIGATION
+========================= */
+
 function previousQuestion(){
 
- if(current>0){
+ if(currentQuestion>0 && !examSubmitted){
 
-  current--;
-
+  currentQuestion--;
   renderQuestion();
-
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo(0,0);
 
  }
 
@@ -502,41 +481,47 @@ function previousQuestion(){
 
 function nextQuestion(){
 
- if(current===questions.length-1){
+ if(currentQuestion===questions.length-1){
 
   submitExam();
-
   return;
 
  }
 
- if(current<questions.length-1){
+ if(currentQuestion<questions.length-1){
 
-  current++;
-
+  currentQuestion++;
   renderQuestion();
-
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo(0,0);
 
  }
 
 }
 
+/* =========================
+   SUBMIT EXAM
+========================= */
+
 function submitExam(){
 
- const unanswered=answers.filter(x=>x===null).length;
+ if(examSubmitted)return;
+
+ const unanswered=answers.filter(function(answer){
+  return answer===null;
+ }).length;
 
  if(unanswered>0){
 
-  alert("Please answer all questions. Unanswered: "+unanswered);
+  alert("Please answer all questions before submitting. Unanswered: "+unanswered);
 
-  const firstUnanswered=answers.findIndex(x=>x===null);
+  const firstUnanswered=answers.findIndex(function(answer){
+   return answer===null;
+  });
 
-  current=firstUnanswered;
+  currentQuestion=firstUnanswered;
 
   renderQuestion();
-
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo(0,0);
 
   return;
 
@@ -544,123 +529,44 @@ function submitExam(){
 
  let score=0;
 
- questions.forEach((q,i)=>{
+ questions.forEach(function(question,index){
 
-  if(shuffledQuestions[i].options[answers[i]].correct){
+  const selected=shuffledQuestions[index].options[answers[index]];
+
+  if(selected && selected.correct){
    score++;
   }
 
  });
 
  const wrong=questions.length-score;
+ const percentage=Math.round((score/questions.length)*100);
 
- const percent=Math.round(score/questions.length*100);
+ examSubmitted=true;
 
  document.getElementById("examScreen").classList.add("hidden");
-
  document.getElementById("resultScreen").classList.remove("hidden");
 
- document.getElementById("resultName").textContent="Student: "+student;
+ document.getElementById("resultName").textContent=
+  "Student: "+studentName;
 
  document.getElementById("score").textContent=
   score+" / "+questions.length;
 
  document.getElementById("percentage").textContent=
-  percent+"%";
+  percentage+"%";
 
  document.getElementById("correctCount").textContent=score;
-
  document.getElementById("wrongCount").textContent=wrong;
-
  document.getElementById("totalCount").textContent=questions.length;
 
- document.getElementById("message").textContent=
-  percent>=85?"Excellent performance!":
-  percent>=75?"Very good work!":
-  percent>=60?"Good effort. Keep improving!":
-  "Keep studying and try again!";
+ let message="";
 
- showReview();
-
- window.scrollTo({top:0,behavior:"smooth"});
-
-}
-
-function showReview(){
-
- const section=document.getElementById("reviewSection");
-
- const content=document.getElementById("reviewContent");
-
- section.classList.remove("hidden");
-
- content.innerHTML="";
-
- questions.forEach((q,i)=>{
-
-  const selected=shuffledQuestions[i].options[answers[i]];
-
-  const correct=shuffledQuestions[i].options.find(o=>o.correct);
-
-  const isCorrect=selected.correct;
-
-  const item=document.createElement("div");
-
-  item.className="review-item";
-
-  const title=document.createElement("strong");
-
-  title.textContent="Question "+(i+1)+": "+q.q;
-
-  item.appendChild(title);
-
-  const yourAnswer=document.createElement("p");
-
-  yourAnswer.className=isCorrect?"correct":"wrong";
-
-  yourAnswer.textContent=
-   "Your answer: "+selected.text+(isCorrect?" ✓":" ✗");
-
-  item.appendChild(yourAnswer);
-
-  const correctAnswer=document.createElement("p");
-
-  correctAnswer.className="correct";
-
-  correctAnswer.textContent="Correct answer: "+correct.text;
-
-  item.appendChild(correctAnswer);
-
-  content.appendChild(item);
-
- });
-
-}
-
-function restartExam(){
-
- location.reload();
-
-}
-
-document.addEventListener("DOMContentLoaded",function(){
-
- document.getElementById("startBtn").addEventListener("click",startExam);
-
- document.getElementById("studentName").addEventListener("keydown",function(event){
-
-  if(event.key==="Enter"){
-   startExam();
-  }
-
- });
-
- document.getElementById("prevBtn").addEventListener("click",previousQuestion);
-
- document.getElementById("nextBtn").addEventListener("click",nextQuestion);
-
- document.getElementById("submitBtn").addEventListener("click",submitExam);
-
- document.getElementById("reviewBtn").addEventListener("click",function(){
-
-  document.getElementById("reviewSection").scrollInto
+ if(percentage>=85){
+  message="Excellent performance! Keep it up.";
+ }else if(percentage>=75){
+  message="Very good work! You are doing well.";
+ }else if(percentage>=60){
+  message="Good effort. Keep improving!";
+ }else{
+  message="Keep stud
