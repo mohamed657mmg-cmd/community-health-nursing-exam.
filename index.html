@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Health Nursing Exam</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:20px;min-height:100vh;
+ font-family:Arial,sans-serif;color:#f4f8fc;
+ background:linear-gradient(135deg,#061426,#102d49,#07111f);
+}
+.container{max-width:850px;margin:auto}
+header{text-align:center;padding:20px 10px}
+h1{color:#55d6ff;font-size:27px;margin:8px 0}
+.subtitle{color:#b8c9d9;font-size:14px}
+.card{
+ background:#10243a;border:1px solid #244661;
+ border-radius:16px;padding:22px;margin:15px 0;
+ box-shadow:0 8px 25px #0003
+}
+input{
+ width:100%;padding:14px;border-radius:9px;
+ border:1px solid #42627d;background:#071827;
+ color:white;font-size:16px;margin:12px 0
+}
+button{
+ border:0;border-radius:9px;padding:13px 20px;
+ font-size:15px;font-weight:bold;cursor:pointer;
+ background:#19bce5;color:#061426;margin:5px
+}
+button:disabled{opacity:.4;cursor:not-allowed}
+.secondary{background:#29445d;color:white}
+.question-number{color:#55d6ff;font-weight:bold;margin-bottom:12px}
+.question{font-size:19px;line-height:1.5;margin-bottom:18px}
+.option{
+ display:block;padding:14px;margin:10px 0;
+ border:1px solid #34516b;border-radius:10px;
+ cursor:pointer;background:#0a1c2e;line-height:1.4
+}
+.option:hover{border-color:#55d6ff}
+.option.selected{border:2px solid #19bce5;background:#123b55}
+.progress-bg{height:8px;background:#29445d;border-radius:10px;overflow:hidden}
+.progress{height:100%;width:0;background:#19bce5;transition:.2s}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.small{color:#b8c9d9;font-size:14px}
+.result{text-align:center}
+.score{font-size:42px;color:#55d6ff;font-weight:bold;margin:20px}
+.review-item{border-bottom:1px solid #34516b;padding:16px 0;line-height:1.6}
+.correct{color:#62e6a1}
+.wrong{color:#ff8585}
+footer{text-align:center;color:#a9bfd0;font-size:13px;padding:25px 5px;line-height:1.8}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+ <h1>Community Health Nursing Exam</h1>
+ <div class="subtitle">First & Second Chapters | 50 MCQ Questions</div>
+</header>
+
+<section id="startScreen" class="card">
+ <h2 style="color:#55d6ff">Welcome to the Exam</h2>
+ <p class="small">Please enter your full name before starting.</p>
+ <input id="studentName" type="text" placeholder="Enter your name">
+ <p class="small">Number of Questions: 50</p>
+ <p class="small">Choose one correct answer for each question.</p>
+ <button onclick="startExam()">Start Exam</button>
+</section>
+
+<section id="examScreen" class="hidden">
+ <div class="card">
+  <div class="row">
+   <span id="studentLabel" class="small"></span>
+   <span id="counter" class="small">Question 1 / 50</span>
+  </div>
+  <div class="progress-bg" style="margin-top:15px">
+   <div class="progress" id="progress"></div>
+  </div>
+  <p id="answered" class="small">Answered: 0 / 50</p>
+ </div>
+
+ <div class="card">
+  <div class="question-number" id="qNumber"></div>
+  <div class="question" id="questionText"></div>
+  <div id="options"></div>
+ </div>
+
+ <div class="row">
+  <button class="secondary" id="prevBtn" onclick="previousQuestion()">Previous</button>
+  <button id="nextBtn" onclick="nextQuestion()">Next</button>
+ </div>
+ <div style="text-align:center;margin-top:18px">
+  <button onclick="submitExam()" style="background:#62e6a1">Submit Exam</button>
+ </div>
+</section>
+
+<section id="resultScreen" class="hidden">
+ <div class="card result">
+  <h2 style="color:#55d6ff">Exam Result</h2>
+  <p id="resultName"></p>
+  <div class="score" id="score"></div>
+  <h3 id="percentage"></h3>
+  <p id="message" class="small"></p>
+  <button onclick="showReview()">Review Answers</button>
+  <button class="secondary" onclick="restartExam()">Restart</button>
+ </div>
+ <div id="reviewSection" class="card hidden">
+  <h2 style="color:#55d6ff">Answer Review</h2>
+  <div id="reviewContent"></div>
+ </div>
+</section>
+
+<footer>
+ Designed by Mohamed Mahmoud<br>
+ Exam Author: Mr. Omar Abdel-Tawab
+</footer>
+</div>
+
+<script>
+const questions = [
+{
+q:"According to the ANA definition, Community Health Nursing primarily utilizes knowledge derived from:",
+o:["Clinical pathology and pharmacology","Nursing, social, and public health sciences","Health economics and hospital administration","Epidemiology and biostatistics only"],a:1
+},
+{
+q:'Which phrase best describes the concept of "Community" compared to a formal society?',
+o:["A large social group sharing the same political authority and dominance","A group characterized strictly by legal boundaries and civil legislation","A collection of people interacting whose common interests/characteristics form a sense of unity or belonging","A population linked exclusively by socioeconomic status and occupational tasks"],a:2
+},
+{
+q:"Public health is distinctively characterized as the art and science of:",
+o:["Managing acute tertiary clinical crises within hospitals","Preventing disease, prolonging life, and promoting health through organized community efforts","Administering curative pharmacological interventions independently","Offering private duty bedside care to the elderly and vulnerable"],a:1
+},
+{
+q:"Which of the following represents an overarching goal of Healthy People 2020?",
+o:["Eliminating health disparities and achieving health equity across all groups","Providing advanced robotic surgical care to every community clinic","Converting all primary health centers into specialized inpatient hospitals","Restricting preventive screening programs to high-risk older adults"],a:0
+},
+{
+q:'How is "Disease" broadly characterized in relation to bodily function?',
+o:["A temporary lack of emotional harmony without physical disruption","An impairment of normal body functioning associated with dysfunction of normal homeostatic processes","A psychological inability to engage with family members","The natural outcome of aging regardless of biological integrity"],a:1
+},
+{
+q:"A community nurse organizing a smoking cessation program and encouraging regular exercise is demonstrating:",
+o:["Tertiary prevention","Secondary prevention","Primary prevention","Health restoration"],a:2
+},
+{
+q:"Performing regular mammography for early detection of breast cancer falls under which prevention level?",
+o:["Primary prevention","Secondary prevention","Tertiary prevention","Primordial prevention"],a:1
+},
+{
+q:"Providing low-dose daily aspirin and exercise to a client following an initial myocardial infarction to prevent further attacks represents:",
+o:["Primary prevention","Secondary prevention","Tertiary prevention","Health advocacy"],a:2
+},
+{
+q:"Enrolling a patient recovering from an acute stroke into a specialized multidisciplinary rehabilitation program is an example of:",
+o:["Primary prevention","Secondary prevention","Tertiary prevention","Specific protection"],a:2
+},
+{
+q:"What is a key rationale for stating that blaming individuals for poor health is inappropriate?",
+o:["Individuals are completely unaware of their own health habits","Many major determinants of health (socioeconomic and environmental contexts) are outside direct individual control","Health outcomes are solely dictated by genetic background","The health sector alone carries legal responsibility for personal illness"],a:1
+},
+{
+q:"Which member of the healthcare team is primarily responsible for examining tissues and body fluids in the laboratory to confirm a diagnosis?",
+o:["Radiologist","Pathologist","Pharmacist","Medical Social Worker"],a:1
+},
+{
+q:"When evaluating healthcare team members, the primary role of a healthcare social worker is often centered on:",
+o:["Managing inventory and dispensing unit-dose medications","Assisting with suggestions regarding home care, illness education, available facilities, and mental illness support","Performing specialized cross-sectional diagnostic imaging","Prescribing physical and nutritional therapy regimens"],a:1
+},
+{
+q:"In the context of team communication and efficiency, teaching structured handover methods refers specifically to:",
+o:["SBAR communication strategies","SOAP progress notes","Critical incident auditing","Decentralized recording"],a:0
+},
+{
+q:"Rehearsing frequently encountered emergencies in a safe, simulated environment directly enhances:",
+o:["Core team reduction","Inter-professional collaboration and team effectiveness","Tertiary level hospitalization quotas","Legal liability among staff"],a:1
+},
+{
+q:"Primary Health Care (PHC) is distinguished fundamentally by being:",
+o:["Disease-centered rather than person-centered","Hospital-based rather than outpatient-based","People-centered rather than disease-centered, addressing lifetime health needs","Focused exclusively on curative and pharmacological interventions"],a:2
+},
+{
+q:"Which of the following is considered a core principle/pillar of Primary Health Care?",
+o:["Centralized clinical decision-making","Complete commercialization of medical services","Equitable distribution of resources","Exclusivity of medical specialist care"],a:2
+},
+{
+q:"Equitable distribution of health resources implies that:",
+o:["Specialized high-tech hospitals receive the majority of funding","Health services must be shared equally by all people irrespective of their ability to pay or location","Urban centers must take absolute priority over rural centers","Free medical care is provided only to non-communicable disease patients"],a:1
+},
+{
+q:"In the acronym ELEMENTS of PHC, what does the letter L represent?",
+o:["Lifelong health and screening","Local community involvement","Prevention and control of locally endemic diseases","Leadership and health management"],a:2
+},
+{
+q:"In the acronym ELEMENTS of PHC, the letter S stands for:",
+o:["Surveillance of emerging infectious diseases","Adequate supply of safe water and basic sanitation","Specialized referral hospital services","Screening programs for vulnerable populations"],a:1
+},
+{
+q:"A cardiac-arrest team or disaster-response team is classified under which type of PHC team?",
+o:["Core team","Ancillary team","Contingency team","Coordinating team"],a:2
+},
+{
+q:'In Primary Health Care settings, the "Coordinating Team" is tasked with:',
+o:["Performing lab tests and basic imaging","Direct bedside clinical nursing procedures","Coordinating functions and resource management for core teams","General facility hygiene and cleaning maintenance"],a:2
+},
+{
+q:"Which team in a health facility maintains 24-hour accountability for the overall functioning of the organization?",
+o:["Ancillary team","Support services and administration","Contingency team","Core direct-care providers"],a:1
+},
+{
+q:'"Appropriate technology" in PHC mandates that equipment and techniques must be:',
+o:["The most expensive and digitally advanced available globally","Scientifically valid, acceptable to the community, and affordable by local resources","Imported exclusively from international reference centers","Applied without regard to local cultural beliefs"],a:1
+},
+{
+q:'The developmental stage of "Early Childhood" is defined as:',
+o:["From birth up to the 28th day of life","Following infancy, beginning with toddlerhood and continuing until approximately age 6 or 7","Spanning from age 7 until the onset of puberty","Corresponding strictly to ages 13 through 19"],a:1
+},
+{
+q:'"Middle Childhood" roughly corresponds to:',
+o:["Toddlerhood (ages 1 to 3)","Primary school age, beginning around age 7 and ending with puberty (around age 12-13)","The entire period of secondary school education","Post-pubertal adolescent maturity"],a:1
+},
+{
+q:"Maternal health refers to the health of women during which phases?",
+o:["Only during the second and third trimesters of pregnancy","Strictly during labor, delivery, and immediate delivery room care","Before pregnancy, during pregnancy, at childbirth, and during the postpartum period","Exclusively during childbearing years between 18 and 35 years of age"],a:2
+},
+{
+q:"Maternal Mortality Ratio (MMR) is epidemiologically calculated as:",
+o:["Deaths of women from pregnancy-related causes per 1,000 total pregnancies","Deaths of women while pregnant or within 42 days of termination per 100,000 live births","In-hospital female deaths per 10,000 admitted obstetric patients","Deaths occurring strictly during intrapartum delivery per 100,000 women"],a:1
+},
+{
+q:"What is the single most common cause of maternal death according to MCH data?",
+o:["Gestational diabetes","Postpartum hemorrhage","Amniotic fluid embolism","Iron-deficiency anemia"],a:1
+},
+{
+q:"The Under-five Mortality Rate indicates the probability of dying before reaching age five per:",
+o:["100 live births","1,000 live births","10,000 live births","100,000 live births"],a:1
+},
+{
+q:"Why is a postnatal visit within the first 24 to 48 hours after delivery of critical importance?",
+o:["Newborn vaccinations are only viable within this precise window","Up to 50 percent of maternal deaths occur during the postpartum period","It is the only time lactation counseling can be initiated","Legal birth documentation expires after 48 hours"],a:1
+},
+{
+q:"The global public health recommendation for exclusive breastfeeding requires:",
+o:["Exclusive breastfeeding for 12 months with no complementary water or juice","Breastfeeding alongside formula milk starting within 2 hours of life","Exclusive breastfeeding for the first 6 months, initiated within the first half-hour after birth","Breastfeeding supplemented by glucose water during the first 48 hours"],a:2
+},
+{
+q:"According to the 2014 EDHS, what percentage of currently married women in Egypt were using contraception?",
+o:["Approximately 35 percent","Approximately 59 percent","Approximately 75 percent","Approximately 88 percent"],a:1
+},
+{
+q:"The Sustainable Development Goal 3 (SDG 3) target for global maternal mortality ratio by 2030 is to reduce it to less than:",
+o:["12 per 100,000 live births","25 per 100,000 live births","70 per 100,000 live births","100 per 100,000 live births"],a:2
+},
+{
+q:"Under SDG 3 targets for 2030, countries aim to reduce neonatal mortality to at least as low as:",
+o:["5 per 1,000 live births","12 per 1,000 live births","25 per 1,000 live births","70 per 1,000 live births"],a:1
+},
+{
+q:"Under SDG 3 targets for 2030, the aim for under-5 mortality is to reduce it to at least as low as:",
+o:["12 per 1,000 live births","25 per 1,000 live births","42 per 1,000 live births","50 per 1,000 live births"],a:1
+},
+{
+q:"Poor maternal health and inadequate maternal nutrition during pregnancy directly contribute to:",
+o:["Exclusively post-term pregnancy complications","Low birth weight, childhood anemia, and increased adult risk of chronic diseases","Immediate genetic chromosomal alterations in the infant","Complete immunity failure in early childhood"],a:1
+},
+{
+q:"When a community nurse acts as a liaison with the government, community, and NGOs to organize MCH programs, she is functioning as:",
+o:["A Service Provider","An Administrator","A Researcher","A Direct Caregiver"],a:1
+},
+{
+q:"What is the ultimate, long-term objective of Maternal and Child Health (MCH) services?",
+o:["Eradication of all childhood ailments within 2 years","Life-long health across the entire lifespan","Transitioning all home deliveries to private tertiary centers","Eliminating all communicable respiratory viruses"],a:1
+},
+{
+q:"Approximately what fraction of worldwide child mortality is attributable to malnutrition?",
+o:["One-tenth","One-fourth","Two-thirds","Nine-tenths"],a:2
+},
+{
+q:"A community health nurse who demonstrates reflective practice based on the best available clinical evidence to improve local services is fulfilling the role of:",
+o:["Continuous learning and research","Ancillary coordination","Emergency contingency response","Administrative financial control"],a:0
+},
+{
+q:"The definition of health formulated by the World Health Organization emphasizes that health is:",
+o:["The absolute absence of cellular pathology and physical impairment","A complete state of physical, mental, and social well-being, not merely the absence of disease or infirmity","The capacity to maintain physical labor without clinical exhaustion","Dependent strictly on high socioeconomic prosperity"],a:1
+},
+{
+q:"Which lifestyle factor is shown to cause chronic, comprehensive damage to physical and mental health if unalleviated?",
+o:["Diversified creative hobbies","Excess chronic stress","Daily 30-minute moderate physical activity","Consistent 8-hour sleep intervals"],a:1
+},
+{
+q:"The primary reason community health nursing mandates that health services be realistic is that:",
+o:["Interventions must strictly match available community resources","Nurses cannot provide education without advanced digital systems","Family members must not be involved in decision-making","Government facilities are unable to provide vaccinations"],a:0
+},
+{
+q:"Which principle of infection prevention prohibits sharing prescribed antibiotic medications with family members?",
+o:["Vaccinate and use medicines properly","Protect yourself from disease carriers","Keep clean and disinfect surfaces","Decentralization of pharmacological stock"],a:0
+},
+{
+q:"What is the fundamental premise underlying Primary Health Care delivery?",
+o:["High-income groups subsidize private clinic expansion","All people everywhere deserve the right care, right in their community","Inpatient hospital admission is mandatory for health maintenance","Chronic diseases must take priority over maternal health"],a:1
+},
+{
+q:"Which of the following is considered an Ancillary service within a PHC facility?",
+o:["Direct-care Registered Nurses","Clinical Pharmacists and Dentists","Facility cleaning and domestic staff supporting patient care","Chief Executive Officer and executive administrators"],a:2
+},
+{
+q:"When a nurse assists clients in understanding and claiming their healthcare rights and empowers them to become active participants, she acts as a:",
+o:["Patient advocate and educator","Contingency team supervisor","Secondary clinical screener","Facility resource comptroller"],a:0
+},
+{
+q:"In Egypt, which modern contraceptive methods are most widely utilized according to survey data?",
+o:["Barrier methods, abstinence, and cervical caps","IUD, contraceptive pills, and injectables","Surgical tubal ligation and implants only","Rhythm method and spermicides"],a:1
+},
+{
+q:"An essential component of Primary Health Care addressing inter-sectoral coordination implies that:",
+o:["The Ministry of Health must operate completely isolated from all other sectors","Sectors like water purification, sanitation, education, and agriculture must actively collaborate with healthcare","Only industrial corporate entities can manage primary health funding","Primary clinics must replace secondary general hospitals"],a:1
+},
+{
+q:"The core philosophy of Decentralization within Primary Health Care promotes:",
+o:["Transferring all health decisions to international health agencies","A people-centered approach encompassing promotive, preventive, and curative care through local collaboration and community participation","Removing physicians entirely from primary outpatient centers","Concentrating specialized health facilities exclusively in urban capital cities"],a:1
+}
+];
+
+let current=0;
+let answers=new Array(questions.length).fill(null);
+let student="";
+
+function shuffleOptions(question){
+ const arr=question.o.map((text,index)=>({text,correct:index===question.a}));
+ for(let i=arr.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [arr[i],arr[j]]=[arr[j],arr[i]];
+ }
+ return arr;
+}
+
+const shuffledQuestions=questions.map(q=>({
+ q:q.q,
+ options:shuffleOptions(q)
+}));
+
+function startExam(){
+ const name=document.getElementById("studentName").value.trim();
+ if(!name){alert("Please enter your name first.");return;}
+ student=name;
+ document.getElementById("studentLabel").textContent="Student: "+student;
+ document.getElementById("startScreen").classList.add("hidden");
+ document.getElement
