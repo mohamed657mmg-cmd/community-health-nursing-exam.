@@ -38,7 +38,6 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .start-area{text-align:center}
 .start-area p{line-height:1.8;color:#d0dce7}
 
-/* Student name field */
 .name-field{
   max-width:500px;
   margin:20px auto;
@@ -66,25 +65,24 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .progress-wrap{height:9px;background:#263d53;border-radius:20px;overflow:hidden;margin:15px 0}
 .progress{height:100%;width:0;background:#19bce5;transition:width .2s}
 .topline{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#b9d0e2;font-size:14px}
-.question{
-  padding:18px 0;border-bottom:1px solid #29445d;
-}
-.question:last-child{border-bottom:0}
+.question{padding:18px 0}
 .question h3{font-size:17px;line-height:1.5;margin:0 0 13px}
 .option{
   display:block;padding:12px 14px;margin:8px 0;
   border:1px solid #35536d;border-radius:10px;
   background:#0b1b2d;cursor:pointer;line-height:1.5;
+  transition:all .2s;
 }
 .option:hover{border-color:#19bce5}
 .option input{margin-right:9px;accent-color:#19bce5}
 .option.selected{border-color:#19bce5;background:#123a50}
 .actions{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;margin-top:22px}
-#resultScore{font-size:42px;font-weight:bold;color:#55d6ff;text-align:center}
-.result-message{text-align:center;color:#d1dfeb}
+#resultScore{font-size:42px;font-weight:bold;color:#55d6ff;text-align:center;margin:15px 0 5px}
+.result-message{text-align:center;color:#d1dfeb;font-size:18px}
 .review-item{padding:16px 0;border-bottom:1px solid #29445d;line-height:1.65}
-.correct{color:#65e6a5}
-.wrong{color:#ff9292}
+.review-item:last-child{border-bottom:0}
+.correct{color:#65e6a5;font-weight:bold}
+.wrong{color:#ff9292;font-weight:bold}
 .review-item p{margin:7px 0}
 footer{text-align:center;color:#8da6bb;font-size:13px;padding:22px 5px}
 @media(max-width:600px){body{padding:12px}.card{padding:17px}.actions button{flex:1}}
@@ -140,11 +138,15 @@ footer{text-align:center;color:#8da6bb;font-size:13px;padding:22px 5px}
     <p class="result-message" id="studentResult"></p>
     <div id="resultScore"></div>
     <p class="result-message" id="resultMessage"></p>
-    <div class="actions">
-      <button class="secondary" id="reviewBtn" type="button">Review Answers</button>
+    
+    <div class="actions" style="justify-content:center;">
       <button class="primary" id="restartBtn" type="button">Restart Exam</button>
     </div>
-    <div id="reviewContainer" class="hidden"></div>
+
+    <div style="margin-top:25px;border-top:1px solid #244661;padding-top:15px">
+      <h3 style="color:#55d6ff;text-align:center">Detailed Review & Model Answers</h3>
+      <div id="reviewContainer"></div>
+    </div>
   </section>
 
   <footer>
@@ -230,26 +232,29 @@ function startExam(){
   startScreen.classList.add("hidden");
   resultScreen.classList.add("hidden");
   examScreen.classList.remove("hidden");
-  document.getElementById("reviewContainer").classList.add("hidden");
   renderQuestion();
 }
 
-function renderQuestion(){
-  const question = questions[current];
-  const options = shuffledOptions[current];
-
+function updateProgressHeader(){
   document.getElementById("progressText").textContent =
     `Question ${current+1} of ${questions.length}`;
   document.getElementById("answeredText").textContent =
     `Answered: ${answers.filter(a=>a!==null).length} / ${questions.length}`;
   document.getElementById("progressBar").style.width =
     `${((current+1)/questions.length)*100}%`;
+}
+
+function renderQuestion(){
+  const question = questions[current];
+  const options = shuffledOptions[current];
+
+  updateProgressHeader();
 
   questionsContainer.innerHTML = `
     <div class="question">
-      <h3>Q${current+1}. ${question.q}</h3>
+      <h3>Q${current+1}. ${escapeHTML(question.q)}</h3>
       ${options.map((option,index)=>`
-        <label class="option ${answers[current]===option.originalIndex?"selected":""}">
+        <label class="option ${answers[current]===option.originalIndex?"selected":""}" data-val="${option.originalIndex}">
           <input type="radio" name="answer" value="${option.originalIndex}"
             ${answers[current]===option.originalIndex?"checked":""}>
           ${String.fromCharCode(65+index)}. ${escapeHTML(option.text)}
@@ -258,16 +263,20 @@ function renderQuestion(){
     </div>
   `;
 
+  // Update styles smoothly when radio changes without re-rendering everything
   questionsContainer.querySelectorAll('input[name="answer"]').forEach(input=>{
-    input.addEventListener("change",()=>{
-      answers[current]=Number(input.value);
-      renderQuestion();
+    input.addEventListener("change",(e)=>{
+      answers[current] = Number(e.target.value);
+      questionsContainer.querySelectorAll('.option').forEach(lbl=>{
+        lbl.classList.toggle("selected", Number(lbl.dataset.val) === answers[current]);
+      });
+      updateProgressHeader();
     });
   });
 
-  document.getElementById("backBtn").disabled = current===0;
-  document.getElementById("nextBtn").classList.toggle("hidden",current===questions.length-1);
-  document.getElementById("submitBtn").classList.toggle("hidden",current!==questions.length-1);
+  document.getElementById("backBtn").disabled = (current === 0);
+  document.getElementById("nextBtn").classList.toggle("hidden", current === questions.length - 1);
+  document.getElementById("submitBtn").classList.toggle("hidden", current !== questions.length - 1);
 }
 
 function escapeHTML(value){
@@ -297,77 +306,70 @@ document.getElementById("studentName").addEventListener("input",()=>{
 });
 
 document.getElementById("nextBtn").addEventListener("click",()=>{
-  if(current<questions.length-1){current++;renderQuestion();}
+  if(current < questions.length - 1){
+    current++;
+    renderQuestion();
+  }
 });
 
 document.getElementById("backBtn").addEventListener("click",()=>{
-  if(current>0){current--;renderQuestion();}
+  if(current > 0){
+    current--;
+    renderQuestion();
+  }
 });
 
 document.getElementById("submitBtn").addEventListener("click",()=>{
-  const unanswered=answers.filter(a=>a===null).length;
-  if(unanswered>0){
-    alert(`Please answer all questions first. Unanswered: ${unanswered}`);
-    const firstUnanswered=answers.findIndex(a=>a===null);
-    if(firstUnanswered>=0){current=firstUnanswered;renderQuestion();}
+  const unanswered = answers.filter(a => a === null).length;
+  if(unanswered > 0){
+    alert(`Please answer all questions first. You still have ${unanswered} unanswered question(s).`);
+    const firstUnanswered = answers.findIndex(a => a === null);
+    if(firstUnanswered >= 0){
+      current = firstUnanswered;
+      renderQuestion();
+    }
     return;
   }
   showResults();
 });
 
 function showResults(){
-  const score=answers.reduce((total,answer,index)=>
-    total+(answer===questions[index].a?1:0),0);
-  const percent=Math.round(score/questions.length*100);
-  const studentName=document.getElementById("studentName").value.trim();
+  const score = answers.reduce((total, answer, index) =>
+    total + (answer === questions[index].a ? 1 : 0), 0);
+  const percent = Math.round(score / questions.length * 100);
+  const studentName = document.getElementById("studentName").value.trim();
 
   examScreen.classList.add("hidden");
   resultScreen.classList.remove("hidden");
 
-  document.getElementById("studentResult").textContent =
-    `Student Name: ${studentName}`;
+  document.getElementById("studentResult").textContent = `Student Name: ${studentName}`;
+  document.getElementById("resultScore").textContent = `${score} / ${questions.length}`;
+  document.getElementById("resultMessage").textContent = `Total Score: ${percent}%`;
 
-  document.getElementById("resultScore").textContent=`${score} / ${questions.length}`;
-  document.getElementById("resultMessage").textContent=`Your score: ${percent}%`;
-  document.getElementById("reviewContainer").classList.add("hidden");
-  document.getElementById("reviewBtn").textContent="Review Answers";
-}
-
-function showReview(){
-  const review=document.getElementById("reviewContainer");
-  review.innerHTML=questions.map((question,index)=>{
-    const isCorrect=answers[index]===question.a;
-    const chosen=answers[index];
+  // Render review questions immediately
+  const review = document.getElementById("reviewContainer");
+  review.innerHTML = questions.map((question, index) => {
+    const isCorrect = answers[index] === question.a;
+    const chosen = answers[index];
     return `
       <div class="review-item">
         <strong>Q${index+1}. ${escapeHTML(question.q)}</strong>
-        <p class="${isCorrect?"correct":"wrong"}">
-          Your answer: ${chosen===null?"Not answered":escapeHTML(question.o[chosen])}
-          ${isCorrect?" — Correct":" — Incorrect"}
+        <p class="${isCorrect ? "correct" : "wrong"}">
+          Your Answer: ${chosen === null ? "Not answered" : escapeHTML(question.o[chosen])} 
+          ${isCorrect ? "✓ (Correct)" : "✗ (Incorrect)"}
         </p>
-        <p class="correct">Correct answer: ${escapeHTML(question.o[question.a])}</p>
+        <p class="correct">Correct Answer: ${escapeHTML(question.o[question.a])}</p>
       </div>
     `;
   }).join("");
-  review.classList.remove("hidden");
-  document.getElementById("reviewBtn").textContent="Hide Review";
 }
-
-document.getElementById("reviewBtn").addEventListener("click",()=>{
-  const review=document.getElementById("reviewContainer");
-  if(review.classList.contains("hidden")) showReview();
-  else {
-    review.classList.add("hidden");
-    document.getElementById("reviewBtn").textContent="Review Answers";
-  }
-});
 
 document.getElementById("restartBtn").addEventListener("click",()=>{
   resultScreen.classList.add("hidden");
   startScreen.classList.remove("hidden");
-  document.getElementById("reviewContainer").classList.add("hidden");
+  document.getElementById("studentName").value = "";
 });
 </script>
 </body>
-       </html>
- 
+        </html>
+  
