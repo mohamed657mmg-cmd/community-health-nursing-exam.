@@ -8,95 +8,148 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:linear-gradient(135deg,#061426,#102d49,#07111f);
-  color:#f4f7fb;
-  min-height:100vh;
-  padding:20px;
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:linear-gradient(135deg,#061426,#102d49,#07111f);
+ color:#f4f7fb;
+ min-height:100vh;
+ padding:20px;
 }
+
 .container{max-width:900px;margin:auto}
+
 header{text-align:center;padding:20px 10px}
 header h1{margin:0;color:#55d6ff;font-size:clamp(23px,5vw,34px)}
 header p{color:#b8c9da;line-height:1.6}
+
 .card{
-  background:#10243a;
-  border:1px solid #244661;
-  border-radius:16px;
-  padding:24px;
-  margin:18px 0;
-  box-shadow:0 12px 30px #0004;
+ background:#10243a;
+ border:1px solid #244661;
+ border-radius:16px;
+ padding:24px;
+ margin:18px 0;
+ box-shadow:0 12px 30px #0004;
 }
+
 .hidden{display:none!important}
+
 button{
-  border:0;border-radius:10px;padding:13px 22px;
-  font-size:16px;font-weight:bold;cursor:pointer;
+ border:0;
+ border-radius:10px;
+ padding:13px 22px;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
 }
+
 .primary{background:#19bce5;color:#061426}
 .secondary{background:#29445d;color:#fff}
 button:hover{filter:brightness(1.1)}
 button:disabled{opacity:.5;cursor:not-allowed}
+
 .start-area{text-align:center}
 .start-area p{line-height:1.8;color:#d0dce7}
 
 .name-field{
-  max-width:500px;
-  margin:20px auto;
-  text-align:left;
+ max-width:500px;
+ margin:20px auto;
+ text-align:left;
 }
+
 .name-field label{
-  display:block;
-  margin-bottom:10px;
-  font-weight:bold;
-  color:#55d6ff;
+ display:block;
+ margin-bottom:10px;
+ font-weight:bold;
+ color:#55d6ff;
 }
+
 .name-field input{
-  width:100%;
-  padding:14px;
-  border:1px solid #35536d;
-  border-radius:10px;
-  background:#0b1b2d;
-  color:white;
-  font-size:16px;
-  outline:none;
+ width:100%;
+ padding:14px;
+ border:1px solid #35536d;
+ border-radius:10px;
+ background:#0b1b2d;
+ color:white;
+ font-size:16px;
+ outline:none;
 }
+
 .name-field input:focus{border-color:#19bce5}
 .name-field input::placeholder{color:#8da6bb}
 
-.progress-wrap{height:9px;background:#263d53;border-radius:20px;overflow:hidden;margin:15px 0}
-.progress{height:100%;width:0;background:#19bce5;transition:width .2s}
-.topline{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#b9d0e2;font-size:14px}
+.progress-wrap{
+ height:9px;
+ background:#263d53;
+ border-radius:20px;
+ overflow:hidden;
+ margin:15px 0;
+}
+
+.progress{
+ height:100%;
+ width:0;
+ background:#19bce5;
+ transition:width .2s;
+}
+
+.topline{
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+ flex-wrap:wrap;
+ color:#b9d0e2;
+ font-size:14px;
+}
+
 .question{
-  padding:18px 0;border-bottom:1px solid #29445d;
+ padding:18px 0;
+ border-bottom:1px solid #29445d;
 }
-.question:last-child{border-bottom:0}
-.question h3{font-size:17px;line-height:1.5;margin:0 0 13px}
+
+.question h3{
+ font-size:17px;
+ line-height:1.5;
+ margin:0 0 13px;
+}
+
 .option{
-  display:block;padding:12px 14px;margin:8px 0;
-  border:1px solid #35536d;border-radius:10px;
-  background:#0b1b2d;cursor:pointer;line-height:1.5;
+ display:block;
+ padding:12px 14px;
+ margin:8px 0;
+ border:1px solid #35536d;
+ border-radius:10px;
+ background:#0b1b2d;
+ cursor:pointer;
+ line-height:1.5;
 }
+
 .option:hover{border-color:#19bce5}
 .option input{margin-right:9px;accent-color:#19bce5}
 .option.selected{border-color:#19bce5;background:#123a50}
-.actions{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;margin-top:22px}
-#resultScore{font-size:42px;font-weight:bold;color:#55d6ff;text-align:center}
-.result-message{text-align:center;color:#d1dfeb;line-height:1.7}
-.review-item{padding:16px 0;border-bottom:1px solid #29445d;line-height:1.65}
-.correct{color:#65e6a5}
-.wrong{color:#ff9292}
-.review-item p{margin:7px 0}
-.review-status{
- display:inline-block;
- padding:5px 10px;
- border-radius:7px;
- font-size:13px;
- font-weight:bold;
- margin:8px 0;
+
+.actions{
+ display:flex;
+ gap:10px;
+ justify-content:space-between;
+ flex-wrap:wrap;
+ margin-top:22px;
 }
-.status-correct{background:#164b38;color:#65e6a5}
-.status-wrong{background:#572b35;color:#ff9292}
+
+#resultScore{
+ font-size:42px;
+ font-weight:bold;
+ color:#55d6ff;
+ text-align:center;
+}
+
+.result-message{
+ text-align:center;
+ color:#d1dfeb;
+ line-height:1.7;
+}
+
 .stats{
  display:flex;
  justify-content:center;
@@ -104,6 +157,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
  gap:12px;
  margin:20px 0;
 }
+
 .stat-box{
  background:#0b1b2d;
  border:1px solid #35536d;
@@ -112,17 +166,73 @@ button:disabled{opacity:.5;cursor:not-allowed}
  min-width:110px;
  text-align:center;
 }
-.stat-box strong{display:block;font-size:26px;margin-bottom:5px}
-footer{text-align:center;color:#8da6bb;font-size:13px;padding:22px 5px}
+
+.stat-box strong{
+ display:block;
+ font-size:26px;
+ margin-bottom:5px;
+}
+
+.correct{color:#65e6a5}
+.wrong{color:#ff9292}
+
+.review-item{
+ padding:17px 0;
+ border-bottom:1px solid #35536d;
+ line-height:1.7;
+}
+
+.review-item h3{
+ font-size:16px;
+ line-height:1.6;
+}
+
+.review-item p{margin:8px 0}
+
+.review-status{
+ display:inline-block;
+ padding:5px 10px;
+ border-radius:7px;
+ font-size:13px;
+ font-weight:bold;
+ margin:8px 0;
+}
+
+.status-correct{background:#164b38;color:#65e6a5}
+.status-wrong{background:#572b35;color:#ff9292}
+
+.answer-box{
+ background:#0b1b2d;
+ padding:12px;
+ border-radius:9px;
+ margin-top:10px;
+}
+
+.review-title{
+ color:#55d6ff;
+ border-bottom:1px solid #35536d;
+ padding-bottom:12px;
+ margin-top:28px;
+}
+
+footer{
+ text-align:center;
+ color:#8da6bb;
+ font-size:13px;
+ padding:22px 5px;
+}
+
 @media(max-width:600px){
  body{padding:12px}
  .card{padding:17px}
  .actions button{flex:1}
+ #resultScore{font-size:35px}
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
 <header>
@@ -130,23 +240,31 @@ footer{text-align:center;color:#8da6bb;font-size:13px;padding:22px 5px}
 <p>Chapters 1 & 2 | 50 MCQs | Above Intermediate</p>
 </header>
 
+<!-- START SCREEN -->
+
 <section id="startScreen" class="card start-area">
+
 <h2>Ready to start?</h2>
+
 <p>
 This exam contains 50 multiple-choice questions.<br>
-Enter your name, choose one answer for each question, then submit to see your score and review the correct answers.
+Enter your name, answer all questions, then submit to see your result and correct answers.
 </p>
 
 <div class="name-field">
 <label for="studentName">Student Name</label>
 <input type="text" id="studentName" placeholder="Enter your full name" autocomplete="name">
+
 <p id="nameError" class="hidden" style="color:#ff9292">
 Please enter your name before starting.
 </p>
 </div>
 
 <button class="primary" id="startBtn" type="button">Start Exam</button>
+
 </section>
+
+<!-- EXAM SCREEN -->
 
 <section id="examScreen" class="card hidden">
 
@@ -169,6 +287,8 @@ Please enter your name before starting.
 
 </section>
 
+<!-- RESULT SCREEN -->
+
 <section id="resultScreen" class="card hidden">
 
 <h2 style="text-align:center">Exam Result</h2>
@@ -180,28 +300,31 @@ Please enter your name before starting.
 <p class="result-message" id="resultMessage"></p>
 
 <div class="stats">
+
 <div class="stat-box">
 <strong class="correct" id="correctCount">0</strong>
-<span class="small">Correct Answers</span>
+<span>Correct Answers</span>
 </div>
 
 <div class="stat-box">
 <strong class="wrong" id="wrongCount">0</strong>
-<span class="small">Wrong Answers</span>
+<span>Wrong Answers</span>
 </div>
 
 <div class="stat-box">
 <strong id="totalCount">50</strong>
-<span class="small">Total Questions</span>
+<span>Total Questions</span>
 </div>
+
 </div>
 
 <div class="actions">
-<button class="secondary" id="reviewBtn" type="button">Review Answers</button>
 <button class="primary" id="restartBtn" type="button">Restart Exam</button>
 </div>
 
-<div id="reviewContainer" class="hidden"></div>
+<h3 class="review-title">Answer Review - مراجعة الإجابات</h3>
+
+<div id="reviewContainer"></div>
 
 </section>
 
@@ -216,7 +339,7 @@ Exam Author: Omar Abdel-Tawab
 "use strict";
 
 /* =========================
-   COMMUNITY HEALTH QUESTIONS
+   QUESTIONS
 ========================= */
 
 const questions = [
@@ -327,15 +450,15 @@ const questions = [
    EXAM VARIABLES
 ========================= */
 
-let current = 0;
-let answers = Array(questions.length).fill(null);
-let shuffledOptions = [];
-let examFinished = false;
+let current=0;
+let answers=[];
+let shuffledOptions=[];
+let examFinished=false;
 
-const startScreen = document.getElementById("startScreen");
-const examScreen = document.getElementById("examScreen");
-const resultScreen = document.getElementById("resultScreen");
-const questionsContainer = document.getElementById("questionsContainer");
+const startScreen=document.getElementById("startScreen");
+const examScreen=document.getElementById("examScreen");
+const resultScreen=document.getElementById("resultScreen");
+const questionsContainer=document.getElementById("questionsContainer");
 
 /* =========================
    SHUFFLE OPTIONS
@@ -343,9 +466,9 @@ const questionsContainer = document.getElementById("questionsContainer");
 
 function prepareOptions(){
 
- shuffledOptions = questions.map(question=>{
+ shuffledOptions=questions.map(question=>{
 
-  const options = question.o.map((text,index)=>({
+  const options=question.o.map((text,index)=>({
    text:text,
    originalIndex:index
   }));
@@ -356,9 +479,7 @@ function prepareOptions(){
   }
 
   return options;
-
  });
-
 }
 
 /* =========================
@@ -367,17 +488,15 @@ function prepareOptions(){
 
 function startExam(){
 
- current = 0;
- answers = Array(questions.length).fill(null);
- examFinished = false;
+ current=0;
+ answers=Array(questions.length).fill(null);
+ examFinished=false;
 
  prepareOptions();
 
  startScreen.classList.add("hidden");
  resultScreen.classList.add("hidden");
  examScreen.classList.remove("hidden");
-
- document.getElementById("reviewContainer").classList.add("hidden");
 
  renderQuestion();
 
@@ -390,19 +509,19 @@ function startExam(){
 
 function renderQuestion(){
 
- const question = questions[current];
- const options = shuffledOptions[current];
+ const question=questions[current];
+ const options=shuffledOptions[current];
 
- document.getElementById("progressText").textContent =
+ document.getElementById("progressText").textContent=
   `Question ${current+1} of ${questions.length}`;
 
- document.getElementById("answeredText").textContent =
+ document.getElementById("answeredText").textContent=
   `Answered: ${answers.filter(a=>a!==null).length} / ${questions.length}`;
 
- document.getElementById("progressBar").style.width =
+ document.getElementById("progressBar").style.width=
   `${((current+1)/questions.length)*100}%`;
 
- questionsContainer.innerHTML = `
+ questionsContainer.innerHTML=`
   <div class="question">
    <h3>Q${current+1}. ${escapeHTML(question.q)}</h3>
 
@@ -432,7 +551,7 @@ function renderQuestion(){
 
  });
 
- document.getElementById("backBtn").disabled = current===0;
+ document.getElementById("backBtn").disabled=current===0;
 
  document.getElementById("nextBtn").classList.toggle(
   "hidden",current===questions.length-1
@@ -441,7 +560,6 @@ function renderQuestion(){
  document.getElementById("submitBtn").classList.toggle(
   "hidden",current!==questions.length-1
  );
-
 }
 
 /* =========================
@@ -470,15 +588,12 @@ document.getElementById("startBtn").addEventListener("click",()=>{
  const nameError=document.getElementById("nameError");
 
  if(!nameInput.value.trim()){
-
   nameError.classList.remove("hidden");
   nameInput.focus();
   return;
-
  }
 
  nameError.classList.add("hidden");
-
  startExam();
 
 });
@@ -550,7 +665,6 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
   }
 
   return;
-
  }
 
  showResults();
@@ -558,17 +672,3 @@ document.getElementById("submitBtn").addEventListener("click",()=>{
 });
 
 /* =========================
-   SHOW RESULTS
-========================= */
-
-function showResults(){
-
- let score=0;
-
- answers.forEach((answer,index)=>{
-
-  if(answer===questions[index].a){
-   score++;
-  }
-
- 
