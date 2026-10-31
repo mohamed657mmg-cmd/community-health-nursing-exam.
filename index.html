@@ -1,674 +1,373 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Community Health Nursing Exam</title>
-
 <style>
 *{box-sizing:border-box}
-
 body{
- margin:0;
- font-family:Arial,Helvetica,sans-serif;
- background:linear-gradient(135deg,#061426,#102d49,#07111f);
- color:#f4f7fb;
- min-height:100vh;
- padding:20px;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(135deg,#061426,#102d49,#07111f);
+  color:#f4f7fb;
+  min-height:100vh;
+  padding:20px;
 }
-
 .container{max-width:900px;margin:auto}
-
 header{text-align:center;padding:20px 10px}
 header h1{margin:0;color:#55d6ff;font-size:clamp(23px,5vw,34px)}
 header p{color:#b8c9da;line-height:1.6}
-
 .card{
- background:#10243a;
- border:1px solid #244661;
- border-radius:16px;
- padding:24px;
- margin:18px 0;
- box-shadow:0 12px 30px #0004;
+  background:#10243a;
+  border:1px solid #244661;
+  border-radius:16px;
+  padding:24px;
+  margin:18px 0;
+  box-shadow:0 12px 30px #0004;
 }
-
 .hidden{display:none!important}
-
 button{
- border:0;
- border-radius:10px;
- padding:13px 22px;
- font-size:16px;
- font-weight:bold;
- cursor:pointer;
+  border:0;border-radius:10px;padding:13px 22px;
+  font-size:16px;font-weight:bold;cursor:pointer;
 }
-
 .primary{background:#19bce5;color:#061426}
 .secondary{background:#29445d;color:#fff}
 button:hover{filter:brightness(1.1)}
 button:disabled{opacity:.5;cursor:not-allowed}
-
 .start-area{text-align:center}
 .start-area p{line-height:1.8;color:#d0dce7}
 
+/* Student name field */
 .name-field{
- max-width:500px;
- margin:20px auto;
- text-align:left;
+  max-width:500px;
+  margin:20px auto;
+  text-align:left;
 }
-
 .name-field label{
- display:block;
- margin-bottom:10px;
- font-weight:bold;
- color:#55d6ff;
+  display:block;
+  margin-bottom:10px;
+  font-weight:bold;
+  color:#55d6ff;
 }
-
 .name-field input{
- width:100%;
- padding:14px;
- border:1px solid #35536d;
- border-radius:10px;
- background:#0b1b2d;
- color:white;
- font-size:16px;
- outline:none;
+  width:100%;
+  padding:14px;
+  border:1px solid #35536d;
+  border-radius:10px;
+  background:#0b1b2d;
+  color:white;
+  font-size:16px;
+  outline:none;
 }
-
 .name-field input:focus{border-color:#19bce5}
 .name-field input::placeholder{color:#8da6bb}
 
-.progress-wrap{
- height:9px;
- background:#263d53;
- border-radius:20px;
- overflow:hidden;
- margin:15px 0;
-}
-
-.progress{
- height:100%;
- width:0;
- background:#19bce5;
- transition:width .2s;
-}
-
-.topline{
- display:flex;
- justify-content:space-between;
- gap:10px;
- flex-wrap:wrap;
- color:#b9d0e2;
- font-size:14px;
-}
-
+.progress-wrap{height:9px;background:#263d53;border-radius:20px;overflow:hidden;margin:15px 0}
+.progress{height:100%;width:0;background:#19bce5;transition:width .2s}
+.topline{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#b9d0e2;font-size:14px}
 .question{
- padding:18px 0;
- border-bottom:1px solid #29445d;
+  padding:18px 0;border-bottom:1px solid #29445d;
 }
-
-.question h3{
- font-size:17px;
- line-height:1.5;
- margin:0 0 13px;
-}
-
+.question:last-child{border-bottom:0}
+.question h3{font-size:17px;line-height:1.5;margin:0 0 13px}
 .option{
- display:block;
- padding:12px 14px;
- margin:8px 0;
- border:1px solid #35536d;
- border-radius:10px;
- background:#0b1b2d;
- cursor:pointer;
- line-height:1.5;
+  display:block;padding:12px 14px;margin:8px 0;
+  border:1px solid #35536d;border-radius:10px;
+  background:#0b1b2d;cursor:pointer;line-height:1.5;
 }
-
 .option:hover{border-color:#19bce5}
 .option input{margin-right:9px;accent-color:#19bce5}
 .option.selected{border-color:#19bce5;background:#123a50}
-
-.actions{
- display:flex;
- gap:10px;
- justify-content:space-between;
- flex-wrap:wrap;
- margin-top:22px;
-}
-
-#resultScore{
- font-size:42px;
- font-weight:bold;
- color:#55d6ff;
- text-align:center;
-}
-
-.result-message{
- text-align:center;
- color:#d1dfeb;
- line-height:1.7;
-}
-
-.stats{
- display:flex;
- justify-content:center;
- flex-wrap:wrap;
- gap:12px;
- margin:20px 0;
-}
-
-.stat-box{
- background:#0b1b2d;
- border:1px solid #35536d;
- border-radius:10px;
- padding:14px;
- min-width:110px;
- text-align:center;
-}
-
-.stat-box strong{
- display:block;
- font-size:26px;
- margin-bottom:5px;
-}
-
+.actions{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;margin-top:22px}
+#resultScore{font-size:42px;font-weight:bold;color:#55d6ff;text-align:center}
+.result-message{text-align:center;color:#d1dfeb}
+.review-item{padding:16px 0;border-bottom:1px solid #29445d;line-height:1.65}
 .correct{color:#65e6a5}
 .wrong{color:#ff9292}
-
-.review-item{
- padding:17px 0;
- border-bottom:1px solid #35536d;
- line-height:1.7;
-}
-
-.review-item h3{
- font-size:16px;
- line-height:1.6;
-}
-
-.review-item p{margin:8px 0}
-
-.review-status{
- display:inline-block;
- padding:5px 10px;
- border-radius:7px;
- font-size:13px;
- font-weight:bold;
- margin:8px 0;
-}
-
-.status-correct{background:#164b38;color:#65e6a5}
-.status-wrong{background:#572b35;color:#ff9292}
-
-.answer-box{
- background:#0b1b2d;
- padding:12px;
- border-radius:9px;
- margin-top:10px;
-}
-
-.review-title{
- color:#55d6ff;
- border-bottom:1px solid #35536d;
- padding-bottom:12px;
- margin-top:28px;
-}
-
-footer{
- text-align:center;
- color:#8da6bb;
- font-size:13px;
- padding:22px 5px;
-}
-
-@media(max-width:600px){
- body{padding:12px}
- .card{padding:17px}
- .actions button{flex:1}
- #resultScore{font-size:35px}
-}
+.review-item p{margin:7px 0}
+footer{text-align:center;color:#8da6bb;font-size:13px;padding:22px 5px}
+@media(max-width:600px){body{padding:12px}.card{padding:17px}.actions button{flex:1}}
 </style>
 </head>
-
 <body>
-
 <div class="container">
+  <header>
+    <h1>Community Health Nursing Exam</h1>
+    <p>Chapters 1 & 2 – 50 MCQs | Level: Above Intermediate</p>
+  </header>
 
-<header>
-<h1>Community Health Nursing Exam</h1>
-<p>Chapters 1 & 2 | 50 MCQs | Above Intermediate</p>
-</header>
+  <section id="startScreen" class="card start-area">
+    <h2>Ready to start?</h2>
+    <p>
+      This exam contains 50 multiple-choice questions.<br>
+      Enter your name, choose one answer for each question, then submit to see your score
+      and review the correct answers.
+    </p>
 
-<!-- START SCREEN -->
+    <div class="name-field">
+      <label for="studentName">Student Name</label>
+      <input
+        type="text"
+        id="studentName"
+        placeholder="Enter your full name"
+        autocomplete="name"
+      >
+      <p id="nameError" class="hidden" style="color:#ff9292">
+        Please enter your name before starting.
+      </p>
+    </div>
 
-<section id="startScreen" class="card start-area">
+    <button class="primary" id="startBtn" type="button">Start Exam</button>
+  </section>
 
-<h2>Ready to start?</h2>
+  <section id="examScreen" class="card hidden">
+    <div class="topline">
+      <span id="progressText">Question 1 of 50</span>
+      <span id="answeredText">Answered: 0 / 50</span>
+    </div>
+    <div class="progress-wrap"><div class="progress" id="progressBar"></div></div>
+    <div id="questionsContainer"></div>
+    <div class="actions">
+      <button class="secondary" id="backBtn" type="button">Previous</button>
+      <button class="primary" id="nextBtn" type="button">Next</button>
+      <button class="primary hidden" id="submitBtn" type="button">Submit Exam</button>
+    </div>
+  </section>
 
-<p>
-This exam contains 50 multiple-choice questions.<br>
-Enter your name, answer all questions, then submit to see your result and correct answers.
-</p>
+  <section id="resultScreen" class="card hidden">
+    <h2 style="text-align:center">Exam Result</h2>
+    <p class="result-message" id="studentResult"></p>
+    <div id="resultScore"></div>
+    <p class="result-message" id="resultMessage"></p>
+    <div class="actions">
+      <button class="secondary" id="reviewBtn" type="button">Review Answers</button>
+      <button class="primary" id="restartBtn" type="button">Restart Exam</button>
+    </div>
+    <div id="reviewContainer" class="hidden"></div>
+  </section>
 
-<div class="name-field">
-<label for="studentName">Student Name</label>
-<input type="text" id="studentName" placeholder="Enter your full name" autocomplete="name">
-
-<p id="nameError" class="hidden" style="color:#ff9292">
-Please enter your name before starting.
-</p>
-</div>
-
-<button class="primary" id="startBtn" type="button">Start Exam</button>
-
-</section>
-
-<!-- EXAM SCREEN -->
-
-<section id="examScreen" class="card hidden">
-
-<div class="topline">
-<span id="progressText">Question 1 of 50</span>
-<span id="answeredText">Answered: 0 / 50</span>
-</div>
-
-<div class="progress-wrap">
-<div class="progress" id="progressBar"></div>
-</div>
-
-<div id="questionsContainer"></div>
-
-<div class="actions">
-<button class="secondary" id="backBtn" type="button">Previous</button>
-<button class="primary" id="nextBtn" type="button">Next</button>
-<button class="primary hidden" id="submitBtn" type="button">Submit Exam</button>
-</div>
-
-</section>
-
-<!-- RESULT SCREEN -->
-
-<section id="resultScreen" class="card hidden">
-
-<h2 style="text-align:center">Exam Result</h2>
-
-<p class="result-message" id="studentResult"></p>
-
-<div id="resultScore"></div>
-
-<p class="result-message" id="resultMessage"></p>
-
-<div class="stats">
-
-<div class="stat-box">
-<strong class="correct" id="correctCount">0</strong>
-<span>Correct Answers</span>
-</div>
-
-<div class="stat-box">
-<strong class="wrong" id="wrongCount">0</strong>
-<span>Wrong Answers</span>
-</div>
-
-<div class="stat-box">
-<strong id="totalCount">50</strong>
-<span>Total Questions</span>
-</div>
-
-</div>
-
-<div class="actions">
-<button class="primary" id="restartBtn" type="button">Restart Exam</button>
-</div>
-
-<h3 class="review-title">Answer Review - مراجعة الإجابات</h3>
-
-<div id="reviewContainer"></div>
-
-</section>
-
-<footer>
-Designed by Mohamed Mahmoud<br>
-Exam Author: Omar Abdel-Tawab
-</footer>
-
+  <footer>
+    Designed by Mohamed Mahmoud<br>
+    Exam Author: Omar Abdel-Tawab
+  </footer>
 </div>
 
 <script>
-"use strict";
-
-/* =========================
-   QUESTIONS
-========================= */
-
 const questions = [
-
-{q:"Which statement best describes the WHO definition of health?",o:["Absence of disease only","Complete physical, mental, and social well-being","Ability to work normally","Physical fitness only"],a:1},
-
-{q:"Which of the following is considered a social determinant of health?",o:["Blood group","Eye color","Income and social status","Body temperature"],a:2},
-
-{q:"The main goal of community health nursing is to:",o:["Treat hospitalized patients only","Promote and protect the health of populations","Perform surgical operations","Provide medication only"],a:1},
-
-{q:"Which principle of PHC focuses on involving people in decisions about their health?",o:["Decentralization","Community participation","Hospitalization","Specialization"],a:1},
-
-{q:"Maternal health includes care during:",o:["Pregnancy only","Childbirth only","Postpartum only","Before, during, and after pregnancy"],a:3},
-
-{q:"Which team member is mainly responsible for medication-related services?",o:["Radiologist","Pharmacist","Social worker","Dietician"],a:1},
-
-{q:"The term community refers to people who:",o:["Live without interaction","Share common interests or characteristics and interact","Have different goals only","Work in the same hospital"],a:1},
-
-{q:"Which of the following is a major component of PHC?",o:["Health promotion and disease prevention","Surgery only","Intensive care only","Laboratory testing only"],a:0},
-
-{q:"Which age group is generally associated with adolescence?",o:["1–3 years","7–10 years","13–19 years","20–30 years"],a:2},
-
-{q:"A community health nurse provides antenatal care to:",o:["Elderly people","Pregnant women","Newborns only","Hospital staff"],a:1},
-
-{q:"Which of the following is an example of an environmental determinant of health?",o:["Genetic makeup","Physical environment","Blood group","Personality only"],a:1},
-
-{q:"The healthcare team is best described as:",o:["A single healthcare professional","Professionals working together to provide care","Administrative staff only","Doctors working independently"],a:1},
-
-{q:"Which PHC principle is concerned with fair distribution of healthcare resources?",o:["Equitable distribution","Specialization","Centralization","Isolation"],a:0},
-
-{q:"Poor maternal nutrition may increase the risk of:",o:["Low birth weight","Improved immunity","Faster development","Better growth in all cases"],a:0},
-
-{q:"Which of the following is a role of the community health nurse?",o:["Health education and counseling","Designing hospital buildings","Manufacturing medicines","Performing all medical diagnoses"],a:0},
-
-{q:"Disease can be defined as a condition that:",o:["Improves body function","Impairs normal body functioning","Always has no symptoms","Affects mental health only"],a:1},
-
-{q:"Which PHC team is mainly responsible for direct patient care?",o:["Core team","Ancillary team","Administrative team","Maintenance team"],a:0},
-
-{q:"The main purpose of childhood health services is to:",o:["Focus on adults only","Support the child's health and development","Provide services during school age only","Treat mothers only"],a:1},
-
-{q:"Which of the following is an example of inter-sectoral coordination?",o:["Health services working with education services","One nurse working alone","Hospitals refusing cooperation","Patients avoiding health centers"],a:0},
-
-{q:"The period of middle childhood generally extends from:",o:["Birth to 1 year","1–3 years","Around 7 years to puberty","18–25 years"],a:2},
-
-{q:"Which healthcare professional is responsible for interpreting medical images?",o:["Pharmacist","Radiologist","Dietician","Social worker"],a:1},
-
-{q:"One important benefit of PHC is that it:",o:["Increases healthcare inequality","Provides inclusive and cost-effective services","Focuses only on emergency care","Eliminates the need for prevention"],a:1},
-
-{q:"Which of the following is a preventive service in MCH?",o:["Vaccination","Building hospitals","Financial accounting","Staff recruitment"],a:0},
-
-{q:"Community health nursing combines nursing with:",o:["Engineering sciences","Social and public health sciences","Business administration only","Agricultural sciences"],a:1},
-
-{q:"Which factor is related to individual characteristics and behaviors?",o:["Personal lifestyle","Hospital location","Government budget only","Weather conditions only"],a:0},
-
-{q:"The main responsibility of a dietician is related to:",o:["Nutrition and dietary planning","Medical imaging","Drug dispensing","Social counseling only"],a:0},
-
-{q:"Which PHC component focuses on helping people regain their abilities after illness?",o:["Rehabilitation care","Health promotion only","Disease screening only","Environmental inspection"],a:0},
-
-{q:"The postpartum period refers to the period:",o:["Before pregnancy","During pregnancy","After childbirth","Before puberty"],a:2},
-
-{q:"Which of the following is an example of community participation?",o:["People taking part in local health activities","Health workers making all decisions without consultation","Preventing people from accessing information","Ignoring community needs"],a:0},
-
-{q:"Which team is responsible for supporting services such as cleaning?",o:["Core team","Ancillary team","Coordinating team","Clinical team"],a:1},
-
-{q:"A major aim of community health nursing is to:",o:["Increase health disparities","Prevent and control diseases","Focus on treatment only","Avoid health education"],a:1},
-
-{q:"Which of the following is a broader determinant of health?",o:["Social and economic environment","A single laboratory result","One medication dose","A patient's room number"],a:0},
-
-{q:"Which type of care is included in the comprehensive PHC approach?",o:["Palliative care","Surgery only","Emergency care only","Diagnostic care only"],a:0},
-
-{q:"Which professional may help patients with social problems affecting their health?",o:["Social worker","Radiologist","Pharmacist","Pathologist"],a:0},
-
-{q:"Early childhood generally continues until approximately:",o:["2 years","4 years","6–7 years","15 years"],a:2},
-
-{q:"Which of the following is a role of the community health nurse in disease control?",o:["Preventing and controlling communicable diseases","Avoiding vaccination programs","Providing no health information","Focusing only on hospital records"],a:0},
-
-{q:"Appropriate healthcare technology should be:",o:["Suitable for the community's needs and resources","Expensive in all situations","Difficult for people to use","Available only in large hospitals"],a:0},
-
-{q:"Which statement about maternal and child health is correct?",o:["Maternal health has no effect on child health","Maternal health and child health are closely related","Child health begins only after adolescence","Maternal health concerns childbirth only"],a:1},
-
-{q:"Which of the following is a coordinating team responsibility?",o:["Coordinating resources and services","Cleaning healthcare facilities","Providing direct care only","Dispensing medicines only"],a:0},
-
-{q:"The concept of health equity means:",o:["Giving services to wealthy people only","Reducing unfair differences in health","Providing identical treatment regardless of need","Limiting access to healthcare"],a:1},
-
-{q:"Which of the following is a health-promoting activity?",o:["Health education","Ignoring healthy behaviors","Delaying vaccination","Avoiding community participation"],a:0},
-
-{q:"Which professional is responsible for examining tissues and laboratory specimens to help diagnose disease?",o:["Pathologist","Dietician","Social worker","Spiritual leader"],a:0},
-
-{q:"Which of the following is a major purpose of PHC?",o:["Covering health needs throughout life","Treating one disease only","Providing services to children only","Replacing all specialized hospitals"],a:0},
-
-{q:"Which of the following may result from poor maternal health and nutrition?",o:["Anemia in the child","Guaranteed normal growth","Complete protection from infection","Increased immunity in every case"],a:0},
-
-{q:"Which role involves defending the needs and rights of patients?",o:["Advocacy","Radiology","Medication dispensing","Dietary calculation"],a:0},
-
-{q:"Society is generally characterized by:",o:["Persistent social interaction and shared expectations","Temporary contact only","No shared culture","Complete absence of authority"],a:0},
-
-{q:"Which of the following is considered a support function in PHC?",o:["Administration and support services","Direct clinical care only","Maternal care only","Vaccination only"],a:0},
-
-{q:"Which of the following best describes child health?",o:["Absence of fever only","Supporting the child's development, needs, and ability to interact with the environment","Treating childhood diseases only","Providing nutrition without other care"],a:1},
-
-{q:"Which of the following is a role of the PHC nurse?",o:["Continuous learning and research","Avoiding teamwork","Working without communication","Ignoring patient education"],a:0},
-
-{q:"The comprehensive approach of PHC includes:",o:["Promotion, prevention, treatment, rehabilitation, and palliative care","Treatment only","Hospital admission only","Emergency services only"],a:0}
-
+  {q:"Which statement best describes the WHO definition of health?",o:["Absence of disease only","Complete physical, mental, and social well-being","Ability to work normally","Physical fitness only"],a:1},
+  {q:"Which of the following is considered a social determinant of health?",o:["Blood group","Eye color","Income and social status","Body temperature"],a:2},
+  {q:"The main goal of community health nursing is to:",o:["Treat hospitalized patients only","Promote and protect the health of populations","Perform surgical operations","Provide medication only"],a:1},
+  {q:"Which principle of PHC focuses on involving people in decisions about their health?",o:["Decentralization","Community participation","Hospitalization","Specialization"],a:1},
+  {q:"Maternal health includes care during:",o:["Pregnancy only","Childbirth only","Postpartum only","Before, during, and after pregnancy"],a:3},
+  {q:"Which team member is mainly responsible for medication-related services?",o:["Radiologist","Pharmacist","Social worker","Dietician"],a:1},
+  {q:"The term community refers to people who:",o:["Live without interaction","Share common interests or characteristics and interact","Have different goals only","Work in the same hospital"],a:1},
+  {q:"Which of the following is a major component of PHC?",o:["Health promotion and disease prevention","Surgery only","Intensive care only","Laboratory testing only"],a:0},
+  {q:"Which age group is generally associated with adolescence?",o:["1–3 years","7–10 years","13–19 years","20–30 years"],a:2},
+  {q:"A community health nurse provides antenatal care to:",o:["Elderly people","Pregnant women","Newborns only","Hospital staff"],a:1},
+  {q:"Which of the following is an example of an environmental determinant of health?",o:["Genetic makeup","Physical environment","Blood group","Personality only"],a:1},
+  {q:"The healthcare team is best described as:",o:["A single healthcare professional","Professionals working together to provide care","Administrative staff only","Doctors working independently"],a:1},
+  {q:"Which PHC principle is concerned with fair distribution of healthcare resources?",o:["Equitable distribution","Specialization","Centralization","Isolation"],a:0},
+  {q:"Poor maternal nutrition may increase the risk of:",o:["Low birth weight","Improved immunity","Faster development","Better growth in all cases"],a:0},
+  {q:"Which of the following is a role of the community health nurse?",o:["Health education and counseling","Designing hospital buildings","Manufacturing medicines","Performing all medical diagnoses"],a:0},
+  {q:"Disease can be defined as a condition that:",o:["Improves body function","Impairs normal body functioning","Always has no symptoms","Affects mental health only"],a:1},
+  {q:"Which PHC team is mainly responsible for direct patient care?",o:["Core team","Ancillary team","Administrative team","Maintenance team"],a:0},
+  {q:"The main purpose of childhood health services is to:",o:["Focus on adults only","Support the child's health and development","Provide services during school age only","Treat mothers only"],a:1},
+  {q:"Which of the following is an example of inter-sectoral coordination?",o:["Health services working with education services","One nurse working alone","Hospitals refusing cooperation","Patients avoiding health centers"],a:0},
+  {q:"The period of middle childhood generally extends from:",o:["Birth to 1 year","1–3 years","Around 7 years to puberty","18–25 years"],a:2},
+  {q:"Which healthcare professional is responsible for interpreting medical images?",o:["Pharmacist","Radiologist","Dietician","Social worker"],a:1},
+  {q:"One important benefit of PHC is that it:",o:["Increases healthcare inequality","Provides inclusive and cost-effective services","Focuses only on emergency care","Eliminates the need for prevention"],a:1},
+  {q:"Which of the following is a preventive service in MCH?",o:["Vaccination","Building hospitals","Financial accounting","Staff recruitment"],a:0},
+  {q:"Community health nursing combines nursing with:",o:["Engineering sciences","Social and public health sciences","Business administration only","Agricultural sciences"],a:1},
+  {q:"Which factor is related to individual characteristics and behaviors?",o:["Personal lifestyle","Hospital location","Government budget only","Weather conditions only"],a:0},
+  {q:"The main responsibility of a dietician is related to:",o:["Nutrition and dietary planning","Medical imaging","Drug dispensing","Social counseling only"],a:0},
+  {q:"Which PHC component focuses on helping people regain their abilities after illness?",o:["Rehabilitation care","Health promotion only","Disease screening only","Environmental inspection"],a:0},
+  {q:"The postpartum period refers to the period:",o:["Before pregnancy","During pregnancy","After childbirth","Before puberty"],a:2},
+  {q:"Which of the following is an example of community participation?",o:["People taking part in local health activities","Health workers making all decisions without consultation","Preventing people from accessing information","Ignoring community needs"],a:0},
+  {q:"Which team is responsible for supporting services such as cleaning?",o:["Core team","Ancillary team","Coordinating team","Clinical team"],a:1},
+  {q:"A major aim of community health nursing is to:",o:["Increase health disparities","Prevent and control diseases","Focus on treatment only","Avoid health education"],a:1},
+  {q:"Which of the following is a broader determinant of health?",o:["Social and economic environment","A single laboratory result","One medication dose","A patient's room number"],a:0},
+  {q:"Which type of care is included in the comprehensive PHC approach?",o:["Palliative care","Surgery only","Emergency care only","Diagnostic care only"],a:0},
+  {q:"Which professional may help patients with social problems affecting their health?",o:["Social worker","Radiologist","Pharmacist","Pathologist"],a:0},
+  {q:"Early childhood generally continues until approximately:",o:["2 years","4 years","6–7 years","15 years"],a:2},
+  {q:"Which of the following is a role of the community health nurse in disease control?",o:["Preventing and controlling communicable diseases","Avoiding vaccination programs","Providing no health information","Focusing only on hospital records"],a:0},
+  {q:"Appropriate healthcare technology should be:",o:["Suitable for the community's needs and resources","Expensive in all situations","Difficult for people to use","Available only in large hospitals"],a:0},
+  {q:"Which statement about maternal and child health is correct?",o:["Maternal health has no effect on child health","Maternal health and child health are closely related","Child health begins only after adolescence","Maternal health concerns childbirth only"],a:1},
+  {q:"Which of the following is a coordinating team responsibility?",o:["Coordinating resources and services","Cleaning healthcare facilities","Providing direct care only","Dispensing medicines only"],a:0},
+  {q:"The concept of health equity means:",o:["Giving services to wealthy people only","Reducing unfair differences in health","Providing identical treatment regardless of need","Limiting access to healthcare"],a:1},
+  {q:"Which of the following is a health-promoting activity?",o:["Health education","Ignoring healthy behaviors","Delaying vaccination","Avoiding community participation"],a:0},
+  {q:"Which professional is responsible for examining tissues and laboratory specimens to help diagnose disease?",o:["Pathologist","Dietician","Social worker","Spiritual leader"],a:0},
+  {q:"Which of the following is a major purpose of PHC?",o:["Covering health needs throughout life","Treating one disease only","Providing services to children only","Replacing all specialized hospitals"],a:0},
+  {q:"Which of the following may result from poor maternal health and nutrition?",o:["Anemia in the child","Guaranteed normal growth","Complete protection from infection","Increased immunity in every case"],a:0},
+  {q:"Which role involves defending the needs and rights of patients?",o:["Advocacy","Radiology","Medication dispensing","Dietary calculation"],a:0},
+  {q:"Society is generally characterized by:",o:["Persistent social interaction and shared expectations","Temporary contact only","No shared culture","Complete absence of authority"],a:0},
+  {q:"Which of the following is considered a support function in PHC?",o:["Administration and support services","Direct clinical care only","Maternal care only","Vaccination only"],a:0},
+  {q:"Which of the following best describes child health?",o:["Absence of fever only","Supporting the child's development, needs, and ability to interact with the environment","Treating childhood diseases only","Providing nutrition without other care"],a:1},
+  {q:"Which of the following is a role of the PHC nurse?",o:["Continuous learning and research","Avoiding teamwork","Working without communication","Ignoring patient education"],a:0},
+  {q:"The comprehensive approach of PHC includes:",o:["Promotion, prevention, treatment, rehabilitation, and palliative care","Treatment only","Hospital admission only","Emergency services only"],a:0}
 ];
 
-/* =========================
-   EXAM VARIABLES
-========================= */
+let current = 0;
+let answers = Array(questions.length).fill(null);
+let shuffledOptions = [];
 
-let current=0;
-let answers=[];
-let shuffledOptions=[];
-let examFinished=false;
-
-const startScreen=document.getElementById("startScreen");
-const examScreen=document.getElementById("examScreen");
-const resultScreen=document.getElementById("resultScreen");
-const questionsContainer=document.getElementById("questionsContainer");
-
-/* =========================
-   SHUFFLE OPTIONS
-========================= */
+const startScreen = document.getElementById("startScreen");
+const examScreen = document.getElementById("examScreen");
+const resultScreen = document.getElementById("resultScreen");
+const questionsContainer = document.getElementById("questionsContainer");
 
 function prepareOptions(){
-
- shuffledOptions=questions.map(question=>{
-
-  const options=question.o.map((text,index)=>({
-   text:text,
-   originalIndex:index
-  }));
-
-  for(let i=options.length-1;i>0;i--){
-   const j=Math.floor(Math.random()*(i+1));
-   [options[i],options[j]]=[options[j],options[i]];
-  }
-
-  return options;
- });
+  shuffledOptions = questions.map(question =>
+    question.o.map((text,index)=>({text,originalIndex:index}))
+      .sort(()=>Math.random()-0.5)
+  );
 }
-
-/* =========================
-   START EXAM
-========================= */
 
 function startExam(){
-
- current=0;
- answers=Array(questions.length).fill(null);
- examFinished=false;
-
- prepareOptions();
-
- startScreen.classList.add("hidden");
- resultScreen.classList.add("hidden");
- examScreen.classList.remove("hidden");
-
- renderQuestion();
-
- window.scrollTo({top:0,behavior:"smooth"});
+  current = 0;
+  answers = Array(questions.length).fill(null);
+  prepareOptions();
+  startScreen.classList.add("hidden");
+  resultScreen.classList.add("hidden");
+  examScreen.classList.remove("hidden");
+  document.getElementById("reviewContainer").classList.add("hidden");
+  renderQuestion();
 }
-
-/* =========================
-   RENDER QUESTION
-========================= */
 
 function renderQuestion(){
+  const question = questions[current];
+  const options = shuffledOptions[current];
 
- const question=questions[current];
- const options=shuffledOptions[current];
+  document.getElementById("progressText").textContent =
+    `Question ${current+1} of ${questions.length}`;
+  document.getElementById("answeredText").textContent =
+    `Answered: ${answers.filter(a=>a!==null).length} / ${questions.length}`;
+  document.getElementById("progressBar").style.width =
+    `${((current+1)/questions.length)*100}%`;
 
- document.getElementById("progressText").textContent=
-  `Question ${current+1} of ${questions.length}`;
+  questionsContainer.innerHTML = `
+    <div class="question">
+      <h3>Q${current+1}. ${question.q}</h3>
+      ${options.map((option,index)=>`
+        <label class="option ${answers[current]===option.originalIndex?"selected":""}">
+          <input type="radio" name="answer" value="${option.originalIndex}"
+            ${answers[current]===option.originalIndex?"checked":""}>
+          ${String.fromCharCode(65+index)}. ${escapeHTML(option.text)}
+        </label>
+      `).join("")}
+    </div>
+  `;
 
- document.getElementById("answeredText").textContent=
-  `Answered: ${answers.filter(a=>a!==null).length} / ${questions.length}`;
-
- document.getElementById("progressBar").style.width=
-  `${((current+1)/questions.length)*100}%`;
-
- questionsContainer.innerHTML=`
-  <div class="question">
-   <h3>Q${current+1}. ${escapeHTML(question.q)}</h3>
-
-   ${options.map((option,index)=>`
-    <label class="option ${answers[current]===option.originalIndex?"selected":""}">
-     <input type="radio"
-      name="answer"
-      value="${option.originalIndex}"
-      ${answers[current]===option.originalIndex?"checked":""}>
-     ${String.fromCharCode(65+index)}. ${escapeHTML(option.text)}
-    </label>
-   `).join("")}
-
-  </div>
- `;
-
- questionsContainer.querySelectorAll('input[name="answer"]').forEach(input=>{
-
-  input.addEventListener("change",()=>{
-
-   if(examFinished)return;
-
-   answers[current]=Number(input.value);
-   renderQuestion();
-
+  questionsContainer.querySelectorAll('input[name="answer"]').forEach(input=>{
+    input.addEventListener("change",()=>{
+      answers[current]=Number(input.value);
+      renderQuestion();
+    });
   });
 
- });
-
- document.getElementById("backBtn").disabled=current===0;
-
- document.getElementById("nextBtn").classList.toggle(
-  "hidden",current===questions.length-1
- );
-
- document.getElementById("submitBtn").classList.toggle(
-  "hidden",current!==questions.length-1
- );
+  document.getElementById("backBtn").disabled = current===0;
+  document.getElementById("nextBtn").classList.toggle("hidden",current===questions.length-1);
+  document.getElementById("submitBtn").classList.toggle("hidden",current!==questions.length-1);
 }
-
-/* =========================
-   ESCAPE HTML
-========================= */
 
 function escapeHTML(value){
-
- return String(value).replace(/[&<>"']/g,char=>({
-  "&":"&amp;",
-  "<":"&lt;",
-  ">":"&gt;",
-  '"':"&quot;",
-  "'":"&#39;"
- }[char]));
-
+  return value.replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[char]));
 }
 
-/* =========================
-   START BUTTON
-========================= */
-
 document.getElementById("startBtn").addEventListener("click",()=>{
+  const nameInput=document.getElementById("studentName");
+  const nameError=document.getElementById("nameError");
 
- const nameInput=document.getElementById("studentName");
- const nameError=document.getElementById("nameError");
+  if(!nameInput.value.trim()){
+    nameError.classList.remove("hidden");
+    nameInput.focus();
+    return;
+  }
 
- if(!nameInput.value.trim()){
-  nameError.classList.remove("hidden");
-  nameInput.focus();
-  return;
- }
-
- nameError.classList.add("hidden");
- startExam();
-
+  nameError.classList.add("hidden");
+  startExam();
 });
 
 document.getElementById("studentName").addEventListener("input",()=>{
-
- if(document.getElementById("studentName").value.trim()){
-  document.getElementById("nameError").classList.add("hidden");
- }
-
+  if(document.getElementById("studentName").value.trim()){
+    document.getElementById("nameError").classList.add("hidden");
+  }
 });
-
-document.getElementById("studentName").addEventListener("keydown",event=>{
-
- if(event.key==="Enter"){
-  document.getElementById("startBtn").click();
- }
-
-});
-
-/* =========================
-   NEXT QUESTION
-========================= */
 
 document.getElementById("nextBtn").addEventListener("click",()=>{
-
- if(current<questions.length-1){
-  current++;
-  renderQuestion();
-  window.scrollTo({top:0,behavior:"smooth"});
- }
-
+  if(current<questions.length-1){current++;renderQuestion();}
 });
-
-/* =========================
-   PREVIOUS QUESTION
-========================= */
 
 document.getElementById("backBtn").addEventListener("click",()=>{
-
- if(current>0){
-  current--;
-  renderQuestion();
-  window.scrollTo({top:0,behavior:"smooth"});
- }
-
+  if(current>0){current--;renderQuestion();}
 });
-
-/* =========================
-   SUBMIT EXAM
-========================= */
 
 document.getElementById("submitBtn").addEventListener("click",()=>{
-
- if(examFinished)return;
-
- const unanswered=answers.filter(a=>a===null).length;
-
- if(unanswered>0){
-
-  alert(`Please answer all questions first. Unanswered: ${unanswered}`);
-
-  const firstUnanswered=answers.findIndex(a=>a===null);
-
-  if(firstUnanswered>=0){
-   current=firstUnanswered;
-   renderQuestion();
-   window.scrollTo({top:0,behavior:"smooth"});
+  const unanswered=answers.filter(a=>a===null).length;
+  if(unanswered>0){
+    alert(`Please answer all questions first. Unanswered: ${unanswered}`);
+    const firstUnanswered=answers.findIndex(a=>a===null);
+    if(firstUnanswered>=0){current=firstUnanswered;renderQuestion();}
+    return;
   }
-
-  return;
- }
-
- showResults();
-
+  showResults();
 });
 
-/* =========================
+function showResults(){
+  const score=answers.reduce((total,answer,index)=>
+    total+(answer===questions[index].a?1:0),0);
+  const percent=Math.round(score/questions.length*100);
+  const studentName=document.getElementById("studentName").value.trim();
+
+  examScreen.classList.add("hidden");
+  resultScreen.classList.remove("hidden");
+
+  document.getElementById("studentResult").textContent =
+    `Student Name: ${studentName}`;
+
+  document.getElementById("resultScore").textContent=`${score} / ${questions.length}`;
+  document.getElementById("resultMessage").textContent=`Your score: ${percent}%`;
+  document.getElementById("reviewContainer").classList.add("hidden");
+  document.getElementById("reviewBtn").textContent="Review Answers";
+}
+
+function showReview(){
+  const review=document.getElementById("reviewContainer");
+  review.innerHTML=questions.map((question,index)=>{
+    const isCorrect=answers[index]===question.a;
+    const chosen=answers[index];
+    return `
+      <div class="review-item">
+        <strong>Q${index+1}. ${escapeHTML(question.q)}</strong>
+        <p class="${isCorrect?"correct":"wrong"}">
+          Your answer: ${chosen===null?"Not answered":escapeHTML(question.o[chosen])}
+          ${isCorrect?" — Correct":" — Incorrect"}
+        </p>
+        <p class="correct">Correct answer: ${escapeHTML(question.o[question.a])}</p>
+      </div>
+    `;
+  }).join("");
+  review.classList.remove("hidden");
+  document.getElementById("reviewBtn").textContent="Hide Review";
+}
+
+document.getElementById("reviewBtn").addEventListener("click",()=>{
+  const review=document.getElementById("reviewContainer");
+  if(review.classList.contains("hidden")) showReview();
+  else {
+    review.classList.add("hidden");
+    document.getElementById("reviewBtn").textContent="Review Answers";
+  }
+});
+
+document.getElementById("restartBtn").addEventListener("click",()=>{
+  resultScreen.classList.add("hidden");
+  startScreen.classList.remove("hidden");
+  document.getElementById("reviewContainer").classList.add("hidden");
+});
+</script>
+</body>
+       </html>
+ 
